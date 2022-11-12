@@ -19,7 +19,7 @@ function createSettingsDomNode(items) {
 
 function injectScript() {
   const s = document.createElement("script", { id: "eight-dollars" });
-  s.src = chrome.runtime.getURL("script.js");
+  s.src = chrome.runtime.getURL("script.user.js");
   s.onload = function () {
     this.remove();
   };
