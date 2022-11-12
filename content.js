@@ -31,6 +31,8 @@ if (typeof chrome !== "undefined" && chrome.storage) {
     createSettingsDomNode(items);
     injectScript();
   });
+} else if (typeof GM_info !== "undefined") {
+  createSettingsDomNode(defaultConfig);
 } else {
   createSettingsDomNode(defaultConfig);
   injectScript();
