@@ -26,13 +26,13 @@ function injectScript() {
   document.head.appendChild(s);
 }
 
-if (typeof chrome !== "undefined" && chrome.storage) {
+if (typeof GM_info !== "undefined" || typeof GM !== "undefined") {
+  createSettingsDomNode(defaultConfig);
+} else if (typeof chrome !== "undefined" && chrome.storage) {
   chrome.storage.local.get(defaultConfig, function (items) {
     createSettingsDomNode(items);
     injectScript();
   });
-} else if (typeof GM_info !== "undefined") {
-  createSettingsDomNode(defaultConfig);
 } else {
   createSettingsDomNode(defaultConfig);
   injectScript();
