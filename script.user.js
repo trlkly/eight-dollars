@@ -2,7 +2,7 @@
 // @name        eight-dollars
 // @match       *://*.twitter.com/*
 // @grant       none
-// @version     1.1.0
+// @version     1.3
 // @require     https://raw.githubusercontent.com/trlkly/eight-dollars/main/content.js
 // @author      William Seagar & Walter Lim
 // @description eight-dollars can help you tell the difference between actual verified accounts and twitter blue users. Just install the extension and see the difference.
