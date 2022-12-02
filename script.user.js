@@ -2,7 +2,7 @@
 // @name        eight-dollars
 // @match       *://*.twitter.com/*
 // @grant       none
-// @version     1.3.0.1
+// @version     1.5
 // @require     https://raw.githubusercontent.com/trlkly/eight-dollars/main/styling-fix.js
 // @require     https://raw.githubusercontent.com/trlkly/eight-dollars/main/content.js
 // @author      William Seagar & Walter Lim
@@ -169,9 +169,9 @@ function changeVerified(prependHTML, elm, isSmall, isIndeterminate) {
       // Ideally, we wouldn't mutate the parent element, because those 2 styles won't be managed by us further on.
       // That is, if the `aria-label`-selected element changes, the parent styles won't be properly updated.
       // This approach is tolerable, because it's unlikely that a `aria-label`-selected element changes from a
-      // "React text node + React element node" sibling configuration to a "single React element node" sibling configuration.
+      // "React text node(s) + React element node" sibling configuration to a "single React element node" sibling configuration.
       elm.parentElement.style.display = "inline-flex";
-      elm.parentElement.style.alignItems = "center";  
+      elm.parentElement.style.alignItems = "center";
     }
     if (isSmall || !TEXT_ENABLED) {
       elm.parentElement.innerHTML = `${prependHTML}${small}`;
@@ -207,9 +207,9 @@ function changeBlueVerified(prependHTML, elm, isSmall) {
       // Ideally, we wouldn't mutate the parent element, because those 2 styles won't be managed by us further on.
       // That is, if the `aria-label`-selected element changes, the parent styles won't be properly updated.
       // This approach is tolerable, because it's unlikely that a `aria-label`-selected element changes from a
-      // "React text node + React element node" sibling configuration to a "single React element node" sibling configuration.
+      // "React text node(s) + React element node" sibling configuration to a "single React element node" sibling configuration.
       elm.parentElement.style.display = "inline-flex";
-      elm.parentElement.style.alignItems = "center";  
+      elm.parentElement.style.alignItems = "center";
     }
     if (isSmall || !TEXT_ENABLED) {
       elm.parentElement.innerHTML = `${prependHTML}${small}`;
@@ -221,7 +221,7 @@ function changeBlueVerified(prependHTML, elm, isSmall) {
   }
 }
 
-const BLUE_CHECK_PATTERN_NEW = `[aria-label="${VERIFIED_ACCOUNT_ARIA_LABEL}"]`
+const BLUE_CHECK_PATTERN_NEW = `:not([aria-label="${PROVIDES_DETAILS_ARIA_LABEL}"]) > [aria-label="${VERIFIED_ACCOUNT_ARIA_LABEL}"]`
 const BLUE_CHECK_PATTERN_PROVIDE_DETAILS = `[aria-label="${PROVIDES_DETAILS_ARIA_LABEL}"]`
 
 function querySelectorAllIncludingMe(node, selector) {
@@ -229,6 +229,16 @@ function querySelectorAllIncludingMe(node, selector) {
     return [node]
   }
   return [...node.querySelectorAll(selector)]
+}
+
+function getPreviusSiblingsOuterHTML(node) {
+  let prev = node.previousElementSibling;
+  let html = [];
+  while (prev) {
+    html.push(prev.outerHTML);
+    prev = prev.previousElementSibling;
+  }
+  return html.reverse().join('');
 }
 
 // From https://stackoverflow.com/a/74240138/2230249
@@ -325,7 +335,7 @@ function evaluateBlueCheck() {
 
         const isSmall = checkIfSmall(blueCheckComponent)
         const isKnownBadData = checkIfKnownBadData(blueCheckComponent)
-        const prependHTML = blueCheckComponent.previousElementSibling?.outerHTML
+        const prependHTML = getPreviusSiblingsOuterHTML(blueCheckComponent)
 
         if (isKnownBadData && nestedProps.isVerified && nestedProps.isBlueVerified) {
           changeVerified(prependHTML, blueCheckComponent, isSmall, true);
