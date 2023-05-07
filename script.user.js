@@ -3,7 +3,6 @@
 // @match       *://*.twitter.com/*
 // @grant       GM_getResourceText
 // @version     2.0
-// @require     https://raw.githubusercontent.com/trlkly/eight-dollars/main/styling-fix.js
 // @require     https://raw.githubusercontent.com/wseagar/eight-dollars/main/content.js
 // @require     https://raw.githubusercontent.com/trlkly/eight-dollars/main/content-mods.js
 // @require     https://raw.githubusercontent.com/wseagar/eight-dollars/main/script.js
